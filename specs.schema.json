@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Camper Electrical Specs",
+  "type": "object",
+  "required": ["project", "version", "region", "batteries", "bms", "pv", "inverter"],
+  "properties": {
+    "project": {"type": "string"},
+    "version": {"type": "string"},
+    "region": {"type": "string"},
+    "batteries": {
+      "type": "object",
+      "required": ["count", "model"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 1},
+        "model": {"type": "string"},
+        "chemistry": {"type": "string"}
+      }
+    },
+    "bms": {
+      "type": "object",
+      "required": ["model"],
+      "properties": {
+        "model": {"type": "string"},
+        "control": {"type": "string"}
+      }
+    },
+    "shunt": {"type": "object", "properties": {"model": {"type": "string"}}},
+    "pv": {
+      "type": "object",
+      "required": ["panels", "controller"],
+      "properties": {
+        "panels": {
+          "type": "object",
+          "required": ["count", "watt", "wiring"],
+          "properties": {
+            "count": {"type": "integer", "minimum": 1},
+            "watt": {"type": "integer", "minimum": 1},
+            "wiring": {"type": "string", "enum": ["series", "parallel", "2S2P", "custom"]}
+          }
+        },
+        "controller": {
+          "type": "object",
+          "required": ["model"],
+          "properties": {"model": {"type": "string"}}
+        }
+      }
+    },
+    "alternator": {
+      "type": "object",
+      "properties": {
+        "dcdc": {"type": "object", "properties": {"model": {"type": "string"}}}
+      }
+    },
+    "inverter": {
+      "type": "object",
+      "required": ["model"],
+      "properties": {"model": {"type": "string"}}
+    },
+    "low_voltage_distribution": {
+      "type": "object",
+      "properties": {
+        "fuse_block": {"type": "string"},
+        "bus_bars": {
+          "type": "object",
+          "properties": {"positive": {"type": "string"}, "negative": {"type": "string"}}
+        }
+      }
+    },
+    "wiring": {
+      "type": "object",
+      "properties": {
+        "main_cable": {"type": "string"},
+        "branch_cable": {"type": "string"},
+        "runs": {
+          "type": "object",
+          "properties": {
+            "pv_to_mppt": {"type": "string"},
+            "alt_to_battery": {"type": "string"},
+            "water_pump": {"type": "string"},
+            "general": {"type": "string"}
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "properties": {
+        "ac_outlets": {"type": "integer", "minimum": 0},
+        "dc_outlets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"}
+            },
+            "required": ["type"]
+          }
+        },
+        "loads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "current": {"type": "string"}
+            },
+            "required": ["name", "current"]
+          }
+        }
+      }
+    }
+  }
+}

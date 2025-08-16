@@ -1,0 +1,65 @@
+name: Export and Release
+
+on:
+  push:
+    tags:
+      - 'R*'
+      - 'v*'
+
+jobs:
+  export_and_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install draw.io desktop
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget xvfb
+          DRAWIO_VER=28.0.6
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VER}/drawio-amd64-${DRAWIO_VER}.deb
+          sudo apt-get install -y ./drawio-amd64-${DRAWIO_VER}.deb
+
+      - name: Export diagrams (SVG/PNG/PDF A3/A2)
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          # DC Schematic exports
+          xvfb-run -a /opt/drawio/drawio --export --format svg --uncompressed --output diagrams/dc_schematic.drawio.svg diagrams/dc_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format png --scale 2 --output diagrams/dc_schematic.drawio.png diagrams/dc_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format pdf --pagesize A3 --uncompressed --output diagrams/dc_schematic_A3.drawio.pdf diagrams/dc_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format pdf --pagesize A2 --uncompressed --output diagrams/dc_schematic_A2.drawio.pdf diagrams/dc_schematic.drawio
+          
+          # AC Schematic exports
+          xvfb-run -a /opt/drawio/drawio --export --format svg --uncompressed --output diagrams/ac_schematic.drawio.svg diagrams/ac_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format png --scale 2 --output diagrams/ac_schematic.drawio.png diagrams/ac_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format pdf --pagesize A3 --uncompressed --output diagrams/ac_schematic_A3.drawio.pdf diagrams/ac_schematic.drawio
+          xvfb-run -a /opt/drawio/drawio --export --format pdf --pagesize A2 --uncompressed --output diagrams/ac_schematic_A2.drawio.pdf diagrams/ac_schematic.drawio
+          
+          # Create zip with all exports
+          zip -j dist/H100-Electrical-${{ github.ref_name }}-exports.zip \
+            diagrams/dc_schematic.drawio.svg \
+            diagrams/dc_schematic.drawio.png \
+            diagrams/dc_schematic_A3.drawio.pdf \
+            diagrams/dc_schematic_A2.drawio.pdf \
+            diagrams/ac_schematic.drawio.svg \
+            diagrams/ac_schematic.drawio.png \
+            diagrams/ac_schematic_A3.drawio.pdf \
+            diagrams/ac_schematic_A2.drawio.pdf
+
+      - name: Create GitHub release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: H100 Electrical ${{ github.ref_name }}
+          body: |
+            Automated release for ${{ github.ref_name }}
+            
+            Includes exported diagrams (SVG/PNG + A3/A2 PDFs) zipped.
+            Source revision dates embedded as of tag time.
+          files: |
+            dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

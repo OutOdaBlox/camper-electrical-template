@@ -1,0 +1,57 @@
+# Project specs for templated generation
+project: H100 Camper Build
+version: R1.4c
+region: AU/NZ
+
+batteries:
+  count: 2
+  model: Valence U27-12
+  chemistry: LiFePO4
+
+bms:
+  model: JK BMS 8S 2A
+  control: TE EV200 (12V coil)
+
+shunt:
+  model: Victron SmartShunt 500A
+
+pv:
+  panels:
+    count: 2
+    watt: 200
+    wiring: series
+  controller:
+    model: Victron SmartSolar 100/30
+
+alternator:
+  dcdc:
+    model: Victron Orion-Tr Smart 12/12-30A (isolated)
+
+inverter:
+  model: Victron MultiPlus 12/2000
+
+low_voltage_distribution:
+  fuse_block: Blue Sea 5029
+  bus_bars:
+    positive: Blue Sea 2104
+    negative: Blue Sea 2105
+
+wiring:
+  main_cable: 2/0 AWG (70-95 mm2)
+  branch_cable: 6 AWG (13 mm2)
+  runs:
+    pv_to_mppt: 3m
+    alt_to_battery: 1.5m
+    water_pump: 3m
+    general: 1m
+
+outputs:
+  ac_outlets: 1
+  dc_outlets:
+    - type: 12V/USB A+C
+    - type: 12V/USB A+C
+  loads:
+    - name: water pump
+      current: 10A
+    - name: lights
+      current: 5A

@@ -1,0 +1,23 @@
+Category,Brand,Model,Description,Qty,Notes
+Battery,,{{specs.batteries.model}},12V battery module,{{specs.batteries.count}},Chemistry: {{specs.batteries.chemistry}}
+BMS,,{{specs.bms.model}},External BMS with balancing,1,Controls main contactor
+Main Contactor,,{{specs.bms.control}},High-current DC contactor,1,Fused coil supply
+Shunt,Victron,SmartShunt 500A,Battery monitor shunt with Bluetooth,1,
+MPPT,{{#if specs.pv.controller.model}}Victron{{/if}},{{specs.pv.controller.model}},Solar charge controller,1,Sized for {{specs.pv.panels.count}}x{{specs.pv.panels.watt}}W ({{specs.pv.panels.wiring}})
+DC-DC Charger,Victron,{{specs.alternator.dcdc.model}},Vehicle alternator to house bank charger,1,
+Inverter/Charger,Victron,{{specs.inverter.model}},AC inverter/charger,1,Feeds AC distribution
+PV Isolator,Generic,DC isolator,PV string isolator,1,Rated per array voltage/current
+12V Fuse Block,Blue Sea,{{specs.low_voltage_distribution.fuse_block}},12-circuit fuse block with negative bus,1,
+Bus Bar (+),Blue Sea,{{specs.low_voltage_distribution.bus_bars.positive}},Positive bus bar,1,Capacity >= 250A
+Bus Bar (-),Blue Sea,{{specs.low_voltage_distribution.bus_bars.negative}},Negative bus bar,1,Capacity >= 250A
+Fuse - Battery,MEGA,100A,Between battery + and contactor,{{specs.batteries.count}},
+Fuse - Inverter,Class T,200A,Between + bus and inverter,1,
+Fuse - Distribution,MIDI,60A,Between + bus and 12V fuse block,1,
+Fuse - MPPT Output,MEGA/MIDI,60A,Between + bus and MPPT,1,Adjust per controller
+Fuse - DC-DC Output,MEGA/MIDI,60A,Between + bus and DC-DC,1,Adjust per charger
+Solar Panel,Generic,{{specs.pv.panels.watt}}W,PV module,{{specs.pv.panels.count}},{{specs.pv.panels.wiring}} string
+PV Cable,Generic,10 AWG (6 mm²),UV-rated PV cable (red/black),10 m,Length per layout
+Lugs and Heatshrink,Generic,As required,For {{specs.wiring.main_cable}} and {{specs.wiring.branch_cable}} terminations,1 set,
+Main Cabling,Generic,{{specs.wiring.main_cable}},Battery/contactor/inverter runs,As req,Length per layout
+Branch Cabling,Generic,{{specs.wiring.branch_cable}},MPPT and DC-DC runs,As req,Length per layout
+MC4 Connectors,Generic,MC4 pair,Solar connectors,{{specs.pv.panels.count}} pairs,

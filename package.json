@@ -1,0 +1,17 @@
+﻿{
+    "name":  "camper-electrical-template",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "scripts":  {
+                    "validate":  "node scripts/validate-specs.mjs",
+                    "build":  "node scripts/generate-from-specs.mjs",
+                    "package":  "mkdir -p dist \u0026\u0026 zip -j dist/docs-and-bom.zip docs/installation.md docs/safety.md bom/bom.csv"
+                },
+    "devDependencies":  {
+                            "ajv":  "^8.17.1",
+                            "handlebars":  "^4.7.8",
+                            "yaml":  "^2.4.2",
+                            "yargs":  "^17.7.2"
+                        }
+}
