@@ -1,4 +1,4 @@
-# Project specs for templated generation
+﻿# Project specs for templated generation
 project: H100 Camper Build
 version: R1.4c
 region: AU/NZ
@@ -28,7 +28,7 @@ alternator:
     model: Victron Orion-Tr Smart 12/12-30A (isolated)
 
 inverter:
-  model: Victron MultiPlus 12/2000
+  model: Victron Phoenix Inverter Smart 12/1200
 
 low_voltage_distribution:
   fuse_block: Blue Sea 5029
@@ -55,3 +55,4 @@ outputs:
       current: 10A
     - name: lights
       current: 5A
+
